@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package sensor_data;
+
+service SensorService {
+    rpc SendPressure (SensorData) returns (Empty);
+}
+
+message SensorData {
+    string sensor_id = 1;
+    float systolic = 2;
+    float diastolic = 3;
+    string unit = 4;
+    string date = 5;
+}
+
+message Empty {}
