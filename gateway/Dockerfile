@@ -7,7 +7,7 @@ COPY . .
 #COPY gateway.py .
 #COPY requirements.txt .
 
-RUN python -m pip install --upgrade pip
+#RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 #RUN sleep 5 && python -m grpc_tools.protoc -I. --python_out=. --pyi_out=. --grpc_python_out=. sensor.proto

@@ -8,6 +8,10 @@ services:
       - "7777:7777"
     networks:
       - my-network
+    environment:
+      - MQTT_BROKER_ADDRESS=mqtt-broker
+    depends_on:
+      - mqtt-broker
   temperature_sensor:
     build:
       context: ./sensors/temperature_sensor
@@ -32,6 +36,28 @@ services:
       - gateway
     networks:
       - my-network
+  mqtt-broker:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - my-network
+  mqtt-subscriber:
+    build:
+      context: ./mqtt-subscriber
+      dockerfile: Dockerfile
+    depends_on:
+      - mqtt-broker
+    networks:
+      - my-network
+    environment:
+      - MQTT_BROKER_ADDRESS=mqtt-broker
+      - MQTT_TOPICS=temperature,pressure,heartRate
 networks:
   my-network:
     driver: bridge
