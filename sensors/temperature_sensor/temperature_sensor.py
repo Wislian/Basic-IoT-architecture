@@ -1,6 +1,6 @@
 import time, requests, random, datetime
 
-GATEWAY_URL = "http://localhost:5000/temperature"
+GATEWAY_URL = "http://gateway:5000/temperature"
 
 def generate_temperature():
     return{

@@ -12,18 +12,24 @@ services:
     build:
       context: ./sensors/temperature_sensor
       dockerfile: Dockerfile
+    depends_on:
+      - gateway
     networks:
       - my-network
   pressure_sensor:
     build:
       context: ./sensors/pressure_sensor
       dockerfile: Dockerfile
+    depends_on:
+      - gateway
     networks:
       - my-network
   heartrate_sensor:
     build:
       context: ./sensors/heartrate_sensor
       dockerfile: Dockerfile
+    depends_on:
+      - gateway
     networks:
       - my-network
 networks:

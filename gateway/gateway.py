@@ -1,3 +1,4 @@
+import sys
 from flask import Flask, request, jsonify
 from flask_sock import Sock
 import paho.mqtt.client as mqtt
@@ -6,6 +7,7 @@ import json
 import sensor_pb2, sensor_pb2_grpc, grpc
 from concurrent import futures
 
+sys.stdout.reconfigure(line_buffering=True)
 
 app = Flask(__name__)
 sock = Sock(app)

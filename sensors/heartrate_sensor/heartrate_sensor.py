@@ -13,7 +13,7 @@ def generate_heart_rate():
     }
 
 async def send_data():
-    uri = "ws://localhost:5000/heartrate"
+    uri = "ws://gateway:5000/heartrate"
     try:
         async with websockets.connect(uri) as websocket:
             print(f"[WS] connected to gateway")
