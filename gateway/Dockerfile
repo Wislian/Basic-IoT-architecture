@@ -4,11 +4,13 @@ WORKDIR /app
 
 COPY . .
 #COPY sensor.proto .
-#COPY pressure_sensor.py .
+#COPY gateway.py .
 #COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 #RUN sleep 5 && python -m grpc_tools.protoc -I. --python_out=. --pyi_out=. --grpc_python_out=. sensor.proto
 
-CMD ["python", "pressure_sensor.py"]
+
+CMD ["python", "gateway.py"]

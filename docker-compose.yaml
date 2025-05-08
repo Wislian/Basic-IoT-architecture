@@ -1,0 +1,31 @@
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+      - "7777:7777"
+    networks:
+      - my-network
+  temperature_sensor:
+    build:
+      context: ./sensors/temperature_sensor
+      dockerfile: Dockerfile
+    networks:
+      - my-network
+  pressure_sensor:
+    build:
+      context: ./sensors/pressure_sensor
+      dockerfile: Dockerfile
+    networks:
+      - my-network
+  heartrate_sensor:
+    build:
+      context: ./sensors/heartrate_sensor
+      dockerfile: Dockerfile
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge

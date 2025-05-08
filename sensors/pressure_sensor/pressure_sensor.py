@@ -13,7 +13,7 @@ def generate_pressure():
 
 def run():
     try:
-        with grpc.insecure_channel("localhost:7777") as channel:
+        with grpc.insecure_channel("[::]:7777") as channel:
             stub = sensor_pb2_grpc.SensorServiceStub(channel)
             print(f"[gRPC] Channel connected.")
             while True:
