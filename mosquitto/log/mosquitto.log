@@ -131,3 +131,63 @@
 1746683242: Client gateway_publisher closed its connection.
 1746683242: mosquitto version 2.0.21 terminating
 1746683242: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746759446: mosquitto version 2.0.21 starting
+1746759446: Config loaded from /mosquitto/config/mosquitto.conf.
+1746759446: Opening ipv4 listen socket on port 1883.
+1746759446: mosquitto version 2.0.21 running
+1746759449: New connection from 172.18.0.4:40451 on port 1883.
+1746759449: New client connected from 172.18.0.4:40451 as gateway_publisher (p2, c1, k60).
+1746759451: New connection from 172.18.0.3:46329 on port 1883.
+1746759451: New client connected from 172.18.0.3:46329 as mqtt_subscriber (p2, c1, k60).
+1746759479: Client mqtt_subscriber closed its connection.
+1746759490: Client gateway_publisher closed its connection.
+1746759490: mosquitto version 2.0.21 terminating
+1746759490: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746759678: mosquitto version 2.0.21 starting
+1746759678: Config loaded from /mosquitto/config/mosquitto.conf.
+1746759678: Opening ipv4 listen socket on port 1883.
+1746759678: mosquitto version 2.0.21 running
+1746759678: New connection from 172.18.0.3:59983 on port 1883.
+1746759678: New client connected from 172.18.0.3:59983 as mqtt_subscriber (p2, c1, k60).
+1746759681: New connection from 172.18.0.4:58429 on port 1883.
+1746759681: New client connected from 172.18.0.4:58429 as gateway_publisher (p2, c1, k60).
+1746759726: Client mqtt_subscriber closed its connection.
+1746759737: Client gateway_publisher closed its connection.
+1746759738: mosquitto version 2.0.21 terminating
+1746759738: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746759871: mosquitto version 2.0.21 starting
+1746759871: Config loaded from /mosquitto/config/mosquitto.conf.
+1746759871: Opening ipv4 listen socket on port 1883.
+1746759871: mosquitto version 2.0.21 running
+1746759872: New connection from 172.18.0.4:37313 on port 1883.
+1746759872: New client connected from 172.18.0.4:37313 as mqtt_subscriber (p2, c1, k60).
+1746759875: New connection from 172.18.0.3:47779 on port 1883.
+1746759875: New client connected from 172.18.0.3:47779 as gateway_publisher (p2, c1, k60).
+1746759984: Client mqtt_subscriber closed its connection.
+1746759995: Client gateway_publisher closed its connection.
+1746759996: mosquitto version 2.0.21 terminating
+1746759996: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746760897: mosquitto version 2.0.21 starting
+1746760897: Config loaded from /mosquitto/config/mosquitto.conf.
+1746760897: Opening ipv4 listen socket on port 1883.
+1746760897: mosquitto version 2.0.21 running
+1746760898: New connection from 172.18.0.3:33353 on port 1883.
+1746760898: New client connected from 172.18.0.3:33353 as mqtt_subscriber (p2, c1, k60).
+1746760900: New connection from 172.18.0.4:57449 on port 1883.
+1746760900: New client connected from 172.18.0.4:57449 as gateway_publisher (p2, c1, k60).
+1746761176: Client mqtt_subscriber closed its connection.
+1746761187: Client gateway_publisher closed its connection.
+1746761188: mosquitto version 2.0.21 terminating
+1746761188: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746761553: mosquitto version 2.0.21 starting
+1746761553: Config loaded from /mosquitto/config/mosquitto.conf.
+1746761553: Opening ipv4 listen socket on port 1883.
+1746761553: mosquitto version 2.0.21 running
+1746761554: New connection from 172.18.0.3:33981 on port 1883.
+1746761554: New client connected from 172.18.0.3:33981 as mqtt_subscriber (p2, c1, k60).
+1746761557: New connection from 172.18.0.4:35825 on port 1883.
+1746761557: New client connected from 172.18.0.4:35825 as gateway_publisher (p2, c1, k60).
+1746761594: Client mqtt_subscriber closed its connection.
+1746761607: Client gateway_publisher closed its connection.
+1746761607: mosquitto version 2.0.21 terminating
+1746761607: Saving in-memory database to /mosquitto/data//mosquitto.db.

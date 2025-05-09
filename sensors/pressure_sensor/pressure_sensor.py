@@ -1,12 +1,15 @@
-import grpc, time, random, datetime, sensor_pb2, sensor_pb2_grpc
+import grpc
+import time
+import random
+import datetime
+import sensor_pb2, sensor_pb2_grpc
 
 def generate_pressure():
-    systolic = random.uniform(100,140)
-    diastolic = random.uniform(60,90)
     return sensor_pb2.SensorData(
-        sensor_id = "Press_001",
-        systolic = round(systolic, 1),
-        diastolic = round(diastolic, 1),
+        sensor_id = f"Press_00{random.randint(1,3)}",
+        person_id = random.randint(1,4),
+        systolicPressure = random.randint(100,140),
+        diastolicPressure = random.randint(60,90),
         unit = "mmHg",
         date = datetime.datetime.now().isoformat()
     )
@@ -14,11 +17,11 @@ def generate_pressure():
 def run():
     try:
         with grpc.insecure_channel("gateway:7777") as channel:
-            stub = sensor_pb2_grpc.SensorServiceStub(channel)
+            stub = sensor_pb2_grpc.SensorDataServiceStub(channel)
             print(f"[gRPC] Channel connected.")
             while True:
                 pressure_data = generate_pressure()
-                stub.SendPressure(pressure_data)
+                stub.SendPressureReading(pressure_data)
                 print(f"[gRPC] Sent: \n{pressure_data}")
                 time.sleep(10)
     except Exception as e:
@@ -26,4 +29,5 @@ def run():
         
 
 if __name__ == "__main__":
+    time.sleep(5)
     run()

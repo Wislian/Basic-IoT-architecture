@@ -25,7 +25,7 @@ if _version_not_supported:
     )
 
 
-class SensorServiceStub(object):
+class SensorDataServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -34,43 +34,43 @@ class SensorServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SendPressure = channel.unary_unary(
-                '/sensor_data.SensorService/SendPressure',
+        self.SendPressureReading = channel.unary_unary(
+                '/sensor_data.SensorDataService/SendPressureReading',
                 request_serializer=sensor__pb2.SensorData.SerializeToString,
                 response_deserializer=sensor__pb2.Empty.FromString,
                 _registered_method=True)
 
 
-class SensorServiceServicer(object):
+class SensorDataServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SendPressure(self, request, context):
+    def SendPressureReading(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_SensorServiceServicer_to_server(servicer, server):
+def add_SensorDataServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SendPressure': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendPressure,
+            'SendPressureReading': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendPressureReading,
                     request_deserializer=sensor__pb2.SensorData.FromString,
                     response_serializer=sensor__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'sensor_data.SensorService', rpc_method_handlers)
+            'sensor_data.SensorDataService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('sensor_data.SensorService', rpc_method_handlers)
+    server.add_registered_method_handlers('sensor_data.SensorDataService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class SensorService(object):
+class SensorDataService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SendPressure(request,
+    def SendPressureReading(request,
             target,
             options=(),
             channel_credentials=None,
@@ -83,7 +83,7 @@ class SensorService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/sensor_data.SensorService/SendPressure',
+            '/sensor_data.SensorDataService/SendPressureReading',
             sensor__pb2.SensorData.SerializeToString,
             sensor__pb2.Empty.FromString,
             options,

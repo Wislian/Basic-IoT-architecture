@@ -20,6 +20,8 @@ MQTT_PORT = 1883
 MQTT_TOPICS = ("temperature", "pressure", "heartRate")
 
 gateway_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2,"gateway_publisher")
+
+
 def publish_to_mqtt(topic, data):
     try:
         result = gateway_client.publish(topic, json.dumps(data))
@@ -35,7 +37,7 @@ def publish_to_mqtt(topic, data):
 def handle_temperature():
     data = request.json
     publish_to_mqtt(MQTT_TOPICS[0],data)
-    print(f"received Rest:{data}")
+    print(f"received Rest:{data['sensor_id']}")
     return jsonify({"status":"received"}), 200
 
 #WebSocket
@@ -46,20 +48,21 @@ def handle_heart_rate(ws):
         if message:
             try:
                 data = json.loads(message)
-                print(f"received websocket:{data}")
+                print(f"received websocket:{data['sensor_id']}")
                 publish_to_mqtt(MQTT_TOPICS[2],data)
             except Exception as e:
                 print(f"[WS ERROR] {e}")
 
 #gRPC
-class PressureSensor(sensor_pb2_grpc.SensorServiceServicer):
-    def SendPressure(self, request, context):
-        publish_to_mqtt(MQTT_TOPICS[1],MessageToJson(request))
-        print(f"received gRPC:{request}")
+class PressureSensor(sensor_pb2_grpc.SensorDataServiceServicer):
+    def SendPressureReading(self, request, context):
+        data = json.loads(MessageToJson(request,preserving_proto_field_name=True))
+        publish_to_mqtt(MQTT_TOPICS[1],data)
+        print(f"received gRPC:{data['sensor_id']}")
         return sensor_pb2.Empty()
 def serve_grpc():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    sensor_pb2_grpc.add_SensorServiceServicer_to_server(PressureSensor(), server)
+    sensor_pb2_grpc.add_SensorDataServiceServicer_to_server(PressureSensor(), server)
     server.add_insecure_port("[::]:7777")
     server.start()
     server.wait_for_termination()   
@@ -74,14 +77,16 @@ def connect_mqtt():
 
 if __name__ == "__main__":
     time.sleep(2)
+    #initialization MQTT
     mqtt_connected = connect_mqtt()
     if mqtt_connected:
         gateway_client.loop_start()
 
+    #Initialization gRPC server
     grpc_thread = threading.Thread(target=serve_grpc)
     grpc_thread.daemon = True
     grpc_thread.start()
     
+    #Initialization rest,webSocket server with flask
     app.run(host="0.0.0.0",port = 5000)
-    #gateway_client.loop_start()
 

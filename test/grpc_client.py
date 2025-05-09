@@ -2,7 +2,7 @@ import test_pb2, test_pb2_grpc, grpc
 import time, random, datetime
 
 def run():
-    with grpc.insecure_channel("localhost:7777") as channel:
+    with grpc.insecure_channel("localhost:7778") as channel:
         stub = test_pb2_grpc.SensorServiceStub(channel)
         systolic = random.uniform(100,140)
         diastolic = random.uniform(60,90)

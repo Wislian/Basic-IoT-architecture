@@ -1,10 +1,14 @@
-import time, requests, random, datetime
+import time
+import requests
+import random
+import datetime
 
 GATEWAY_URL = "http://gateway:5000/temperature"
 
 def generate_temperature():
     return{
-        "sensor_id":"Temp_001",
+        "sensor_id":f"Temp_00{random.randint(1,3)}",
+        "person_id":random.randint(1,4),
         "value":round(random.uniform(35,38), 2),
         "unit":"C",
         "date":datetime.datetime.now().isoformat()

@@ -2,16 +2,17 @@ syntax = "proto3";
 
 package sensor_data;
 
-service SensorService {
-    rpc SendPressure (SensorData) returns (Empty);
+service SensorDataService {
+    rpc SendPressureReading (SensorData) returns (Empty);
 }
 
 message SensorData {
     string sensor_id = 1;
-    float systolic = 2;
-    float diastolic = 3;
-    string unit = 4;
-    string date = 5;
+    int32 person_id =2;
+    float systolicPressure = 3;
+    float diastolicPressure = 4;
+    string unit = 5;
+    string date = 6;
 }
 
 message Empty {}

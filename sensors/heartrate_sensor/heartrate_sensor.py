@@ -1,12 +1,15 @@
 import websockets
 import asyncio
-import random, datetime
+import random
+import datetime
 import json
+import time
 
 
 def generate_heart_rate():
     return {
-        "sensor_id":"Heart_001",
+        "sensor_id":f"Heart_00{random.randint(1,3)}",
+        "person_id":random.randint(1,4),
         "value":random.randint(60,100),
         "unit":"bpm",
         "date":datetime.datetime.now().isoformat()
@@ -20,13 +23,11 @@ async def send_data():
             while True:
                 data = generate_heart_rate()
                 message = json.dumps(data)
-                try:
-                    await websocket.send(message)
-                except Exception as e:
-                    print(f"[WS] ERROR 1: {e}")
-                await asyncio.sleep(7)
+                await websocket.send(message)
+                await asyncio.sleep(10)
     except Exception as e:
-        print(f"[WS] ERROR 2: {e}")
+        print(f"[WS] ERROR: {e}")
 
 if __name__ == "__main__":
+    time.sleep(5)
     asyncio.run(send_data())
