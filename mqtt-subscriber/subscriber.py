@@ -3,13 +3,46 @@ import json
 import os
 import time
 import sys
+import psycopg2
 
 sys.stdout.reconfigure(line_buffering=True)
+
+
+POSTGRES_HOST = os.environ.get("POSTGRES_HOST", "postgres")
+POSTGRES_DB = os.environ.get("POSTGRES_DB", "healthdb")
+POSTGRES_USER = os.environ.get("POSTGRES_USER", "postgres")
+POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD", "postgres")
+
+try:
+    db_conn = psycopg2.connect(
+        host=POSTGRES_HOST,
+        dbname=POSTGRES_DB,
+        user=POSTGRES_USER,
+        password=POSTGRES_PASSWORD,
+        port=5432
+    )
+    db_conn.autocommit = True
+    db_cursor = db_conn.cursor()
+    print("[DB] Connected to PostgreSQL successfully.")
+except Exception as e:
+    print(f"[DB] PostgreSQL connection failed: {e}")
+    sys.exit(1)
 
 MQTT_BROKER_ADDRESS = os.environ.get("MQTT_BROKER_ADDRESS", "mqtt-broker")
 MQTT_PORT = 1883
 MQTT_TOPICS = os.environ.get("MQTT_TOPICS", "temperature,pressure,heartRate").split(",")
 
+
+# def on_message(client, userdata, message):
+#     topic = message.topic
+#     try:
+#         payload = json.loads(message.payload.decode())
+#         print(f"\n[{topic.upper()}] Message received:")
+#         print(json.dumps(payload, indent=2))
+#         print("-" * 50)
+#     except Exception as e:
+#         print(f"Error to process message {topic}: {e}")
+#         print(f"Payload: {message.payload.decode()}")
 
 def on_message(client, userdata, message):
     topic = message.topic
@@ -18,9 +51,35 @@ def on_message(client, userdata, message):
         print(f"\n[{topic.upper()}] Message received:")
         print(json.dumps(payload, indent=2))
         print("-" * 50)
+
+        sensor_id = payload.get("sensor_id")
+        unit = payload.get("unit")
+        value = payload.get("value")
+        timestamp = payload.get("date")
+
+        if topic == "temperature":
+            db_cursor.execute(
+                "INSERT INTO temperature (person_id, sensor_id, value, unit, timestamp) VALUES (%s, %s, %s, %s, %s)",
+                (1, 1, value, unit, timestamp)
+            )
+
+        elif topic == "heartRate":
+            db_cursor.execute(
+                "INSERT INTO heart_rate (person_id, sensor_id, value, unit, timestamp) VALUES (%s, %s, %s, %s, %s)",
+                (1, 1, value, unit, timestamp)
+            )
+
+        elif topic == "pressure":
+            systolic = payload.get("systolic")
+            diastolic = payload.get("diastolic")
+            db_cursor.execute(
+                "INSERT INTO blood_pressure (person_id, sensor_id, systolic, diastolic, unit, timestamp) VALUES (%s, %s, %s, %s, %s, %s)",
+                (1, 1, systolic, diastolic, unit, timestamp)
+            )
+
     except Exception as e:
-        print(f"Error to process message {topic}: {e}")
-        print(f"Payload: {message.payload.decode()}")
+        print(f"[ERROR] Processing message from {topic}: {e}")
+
 
 
 def on_connect(client, userdata, flags, rc, properties = None):

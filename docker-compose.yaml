@@ -58,6 +58,26 @@ services:
     environment:
       - MQTT_BROKER_ADDRESS=mqtt-broker
       - MQTT_TOPICS=temperature,pressure,heartRate
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=healthdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: healthdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - my-network
+volumes:
+  pgdata:
 networks:
   my-network:
     driver: bridge
