@@ -2,6 +2,7 @@ import time
 import requests
 import random
 import datetime
+from zoneinfo import ZoneInfo
 
 GATEWAY_URL = "http://gateway:5000/temperature"
 
@@ -11,7 +12,7 @@ def generate_temperature():
         "person_id":random.randint(1,4),
         "value":round(random.uniform(35,38), 2),
         "unit":"C",
-        "date":datetime.datetime.now().isoformat()
+        "date":datetime.datetime.now(ZoneInfo("America/Bogota")).isoformat()
     }
 
 def main():

@@ -4,6 +4,7 @@ import random
 import datetime
 import json
 import time
+from zoneinfo import ZoneInfo
 
 
 def generate_heart_rate():
@@ -12,7 +13,7 @@ def generate_heart_rate():
         "person_id":random.randint(1,4),
         "value":random.randint(60,100),
         "unit":"bpm",
-        "date":datetime.datetime.now().isoformat()
+        "date":datetime.datetime.now(ZoneInfo("America/Bogota")).isoformat()
     }
 
 async def send_data():

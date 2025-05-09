@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0csensor.proto\x12\x0bsensor_data\"\x83\x01\n\nSensorData\x12\x11\n\tsensor_id\x18\x01 \x01(\t\x12\x11\n\tperson_id\x18\x02 \x01(\x05\x12\x18\n\x10systolicPressure\x18\x03 \x01(\x02\x12\x19\n\x11\x64iastolicPressure\x18\x04 \x01(\x02\x12\x0c\n\x04unit\x18\x05 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x06 \x01(\t\"\x07\n\x05\x45mpty2W\n\x11SensorDataService\x12\x42\n\x13SendPressureReading\x12\x17.sensor_data.SensorData\x1a\x12.sensor_data.Emptyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0csensor.proto\x12\x0bsensor_data\"\x85\x01\n\nSensorData\x12\x11\n\tsensor_id\x18\x01 \x01(\t\x12\x11\n\tperson_id\x18\x02 \x01(\x05\x12\x19\n\x11systolic_pressure\x18\x03 \x01(\x02\x12\x1a\n\x12\x64iastolic_pressure\x18\x04 \x01(\x02\x12\x0c\n\x04unit\x18\x05 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x06 \x01(\t\"\x07\n\x05\x45mpty2W\n\x11SensorDataService\x12\x42\n\x13SendPressureReading\x12\x17.sensor_data.SensorData\x1a\x12.sensor_data.Emptyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,9 +32,9 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'sensor_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_SENSORDATA']._serialized_start=30
-  _globals['_SENSORDATA']._serialized_end=161
-  _globals['_EMPTY']._serialized_start=163
-  _globals['_EMPTY']._serialized_end=170
-  _globals['_SENSORDATASERVICE']._serialized_start=172
-  _globals['_SENSORDATASERVICE']._serialized_end=259
+  _globals['_SENSORDATA']._serialized_end=163
+  _globals['_EMPTY']._serialized_start=165
+  _globals['_EMPTY']._serialized_end=172
+  _globals['_SENSORDATASERVICE']._serialized_start=174
+  _globals['_SENSORDATASERVICE']._serialized_end=261
 # @@protoc_insertion_point(module_scope)

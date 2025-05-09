@@ -13,20 +13,26 @@ POSTGRES_DB = os.environ.get("POSTGRES_DB", "healthdb")
 POSTGRES_USER = os.environ.get("POSTGRES_USER", "postgres")
 POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD", "postgres")
 
-try:
-    db_conn = psycopg2.connect(
-        host=POSTGRES_HOST,
-        dbname=POSTGRES_DB,
-        user=POSTGRES_USER,
-        password=POSTGRES_PASSWORD,
-        port=5432
-    )
-    db_conn.autocommit = True
-    db_cursor = db_conn.cursor()
-    print("[DB] Connected to PostgreSQL successfully.")
-except Exception as e:
-    print(f"[DB] PostgreSQL connection failed: {e}")
-    sys.exit(1)
+def connect_to_postgres():
+    global db_conn, db_cursor
+    retry = 0
+    db_conn = False
+    while not db_conn and retry < 10:
+        try:
+            db_conn = psycopg2.connect(
+                host=POSTGRES_HOST,
+                dbname=POSTGRES_DB,
+                user=POSTGRES_USER,
+                password=POSTGRES_PASSWORD,
+                port=5432
+            )
+            db_conn.autocommit = True
+            db_cursor = db_conn.cursor()
+            print("[DB] Connected to PostgreSQL successfully.")
+        except Exception as e:
+            print(f"[DB] PostgreSQL connection failed: {e}")
+            sys.exit(1)
+        retry += 1
 
 MQTT_BROKER_ADDRESS = os.environ.get("MQTT_BROKER_ADDRESS", "mqtt-broker")
 MQTT_PORT = 1883
@@ -53,28 +59,29 @@ def on_message(client, userdata, message):
         print("-" * 50)
 
         sensor_id = payload.get("sensor_id")
+        person_id = payload.get("person_id")
         unit = payload.get("unit")
         value = payload.get("value")
         timestamp = payload.get("date")
 
         if topic == "temperature":
             db_cursor.execute(
-                "INSERT INTO temperature (person_id, sensor_id, value, unit, timestamp) VALUES (%s, %s, %s, %s, %s)",
-                (1, 1, value, unit, timestamp)
+                "INSERT INTO Temperature (PersonId, SensorId, TemperatureValue, Unit, RegisterDate) VALUES (%s, %s, %s, %s, %s)",
+                (person_id, sensor_id, value, unit, timestamp)
             )
 
         elif topic == "heartRate":
             db_cursor.execute(
-                "INSERT INTO heart_rate (person_id, sensor_id, value, unit, timestamp) VALUES (%s, %s, %s, %s, %s)",
-                (1, 1, value, unit, timestamp)
+                "INSERT INTO HeartRate (PersonId, SensorId, HeartRateValue, Unit, RegisterDate) VALUES (%s, %s, %s, %s, %s)",
+                (person_id, sensor_id, value, unit, timestamp)
             )
 
         elif topic == "pressure":
-            systolic = payload.get("systolic")
-            diastolic = payload.get("diastolic")
+            systolic = payload.get("systolic_pressure")
+            diastolic = payload.get("diastolic_pressure")
             db_cursor.execute(
-                "INSERT INTO blood_pressure (person_id, sensor_id, systolic, diastolic, unit, timestamp) VALUES (%s, %s, %s, %s, %s, %s)",
-                (1, 1, systolic, diastolic, unit, timestamp)
+                "INSERT INTO BloodPressure (PersonId, SensorId, SystolicPressure, DiastolicPressure, Unit, RegisterDate) VALUES (%s, %s, %s, %s, %s, %s)",
+                (person_id, sensor_id, systolic, diastolic, unit, timestamp)
             )
 
     except Exception as e:
@@ -98,6 +105,7 @@ def main():
     print(f"Broker: {MQTT_BROKER_ADDRESS}:{MQTT_PORT}")
     print(f"Topics: {MQTT_TOPICS}")
     
+    connect_to_postgres()
     
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2,"mqtt_subscriber")
     client.on_connect = on_connect

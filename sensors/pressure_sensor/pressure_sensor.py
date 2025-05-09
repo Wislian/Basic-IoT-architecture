@@ -3,15 +3,16 @@ import time
 import random
 import datetime
 import sensor_pb2, sensor_pb2_grpc
+from zoneinfo import ZoneInfo
 
 def generate_pressure():
     return sensor_pb2.SensorData(
         sensor_id = f"Press_00{random.randint(1,3)}",
         person_id = random.randint(1,4),
-        systolicPressure = random.randint(100,140),
-        diastolicPressure = random.randint(60,90),
+        systolic_pressure = random.randint(100,140),
+        diastolic_pressure = random.randint(60,90),
         unit = "mmHg",
-        date = datetime.datetime.now().isoformat()
+        date = datetime.datetime.now(ZoneInfo("America/Bogota")).isoformat()
     )
 
 def run():

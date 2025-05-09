@@ -9,8 +9,8 @@ service SensorDataService {
 message SensorData {
     string sensor_id = 1;
     int32 person_id =2;
-    float systolicPressure = 3;
-    float diastolicPressure = 4;
+    float systolic_pressure = 3;
+    float diastolic_pressure = 4;
     string unit = 5;
     string date = 6;
 }

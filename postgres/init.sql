@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS HeartRate (
     HeartRateValue INT NOT NULL,
     Unit VARCHAR(5) NOT NULL,
     RegisterDate TIMESTAMP NOT NULL,
-    CONSTRAINT fk_heartrate_person FOREIGN KEY (PersonId) REFERENCES Person(Id),
-    CONSTRAINT fk_heartrate_sensor FOREIGN KEY (SensorId) REFERENCES Sensors(SensorId)
+    CONSTRAINT fk_Heartrate_person FOREIGN KEY (PersonId) REFERENCES Person(Id),
+    CONSTRAINT fk_Heartrate_sensor FOREIGN KEY (SensorId) REFERENCES Sensors(SensorId)
 );
 
 CREATE TABLE IF NOT EXISTS BloodPressure (
@@ -44,3 +44,22 @@ CREATE TABLE IF NOT EXISTS BloodPressure (
     CONSTRAINT fk_bloodpressure_person FOREIGN KEY (PersonId) REFERENCES Person(Id),
     CONSTRAINT fk_bloodpressure_sensor FOREIGN KEY (SensorId) REFERENCES Sensors(SensorId)
 );
+
+INSERT INTO Person (Id, FirstName, LastName, Phone) VALUES
+(1, 'Luis', 'González', '3001234567'),
+(2, 'María', 'Pérez', '3012345678'),
+(3, 'Carlos', 'Ramírez', '3023456789'),
+(4, 'Ana', 'Martínez', '3034567890');
+
+INSERT INTO Sensors (SensorId, SensorStatus, Unit) VALUES
+('Temp_001', 'active', 'C'),
+('Temp_002', 'active', 'C'),
+('Temp_003', 'active', 'C'),
+
+('Press_001', 'active', 'mmHg'),
+('Press_002', 'active', 'mmHg'),
+('Press_003', 'active', 'mmHg'),
+
+('Heart_001', 'active', 'bpm'),
+('Heart_002', 'active', 'bpm'),
+('Heart_003', 'active', 'bpm');
